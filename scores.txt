@@ -1,2 +1,7 @@
-linha1, pontos 1
-linha2, pontos 2
+Tester, 20
+Tester1, 15
+
+Test, 0
+
+
+
