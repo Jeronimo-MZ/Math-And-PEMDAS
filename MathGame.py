@@ -1,4 +1,5 @@
 from MyPythonClass import MathGame
+from time import sleep
 print('='*50)
 print("Arithmetics game".center(50))
 print("="*50)
@@ -13,10 +14,12 @@ while True:
     elif question == "N":
         break
     else:
-        print('Invalid Value! please insert "Y" or "N".')
+        print('Invalid Value! please insert "Y" or "N":')
+input("Press Any Key To Finish....")
 
 
 
 print('='*50)
 print("Finished!!!".center(50))
 print("="*50)
+sleep(2)
