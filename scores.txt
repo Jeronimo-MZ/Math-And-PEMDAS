@@ -1,9 +1,0 @@
-Tester, 20
-Tester1, 15
-
-Test, 0
-
-
-
-Joao, 1
-Nuno, 0

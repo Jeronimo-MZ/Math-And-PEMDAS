@@ -1,5 +1,5 @@
 from random import randint
-from os import rename, remove
+from UserManagement import User
 
 class MathGame:
     def __init__(self):
@@ -11,24 +11,8 @@ class MathGame:
         self.final_score = 0
 
     def get_user_name(self):
-        self.user_name = str(input("Enter your User Name: ").title())
+        self.user_name = str(input("Enter your User Name: ")).title()
         return self.user_name
-    
-    def get_score(self, user_name):
-        try:
-            file = open("scores.txt", "r")
-            for line in file:
-                content = line.split(",")
-                if content[0] == self.user_name:
-                    file.close()
-                    return int(content[1])
-            file.close()
-            return "-1"
-        except IOError:
-            print("scores.txt not found. It will be created!")
-            file = open("scores.txt", "w")
-            file.close()
-            return "-1"
 
     def generate_question(self):
         while True:
@@ -66,33 +50,17 @@ class MathGame:
             print(f"Sorry, wrong answer! The correct answer is {self.result}.")
             return 0
 
-    def update_scores(self,user_name,score, new_user):
-        if new_user:
-            file = open("scores.txt", "a")
-            file.write(f"{user_name}, {score}\n")
-            file.close()
-        else:
-            new_file = open("scores.tmp","w")
-            file = open("scores.txt", "r")
-            for line in file:
-                content = line.split(",")
-                if content[0] == user_name:
-                    line = f"{content[0]}, {score}"
-                new_file.write(f"{line}\n")
-            new_file.close()
-            file.close()
-            remove("scores.txt")
-            rename("scores.tmp", "scores.txt")
-
     def Iniciar(self):
+        usuario = User()
         user_name = self.get_user_name()
-        score  = self.get_score(user_name)
-        if score == '-1':
-            new_user = True
-            score  = 0
-        else:
-            new_user = False
-        user_choice = ""
+        temp = usuario.search(userName=user_name)
+
+        if temp is None:
+            usuario.addUser(user_name)
+        del temp
+
+        score  = usuario.getScore(user_name)
+        user_choice = ''
         while user_choice != "N":
             self.get_answer()
             score = score + self.compare()
@@ -102,8 +70,9 @@ class MathGame:
                     break
                 elif user_choice != "N":
                     print("Please Insert [Y] or [N]")
-        self.update_scores(user_name, score, new_user)
+        usuario.updateScore(score)
         self.final_score = score
+        usuario.close()
 
     def show_score(self):
         print(f"Your Final score was {self.final_score}")
